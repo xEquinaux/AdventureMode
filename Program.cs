@@ -33,18 +33,18 @@
 			{ 
 				if (n == 3) 
 				{
-					if (count >= 2)
+					if (count == 2)
 					{ 
 						for (int m = 0; m < 2; m++)
 						{
 							AddWaypoint(ref area, n);
 						}
 					}
-					else
+					else if (count == 1)
 					{
 						AddWaypoint(ref area, n);
 					}
-					continue;
+					else continue;
 				}
 				for (int i = 0; i < count; i++)
 				{
@@ -54,16 +54,18 @@
 			Console.Clear();
 			Console.WriteLine("Output of bounties:");
 			int num2 = 0;
+			int num3 = 0;
 			foreach (string a in area)
 			{
-				if (num2 % count == 0)
+				if (num2++ % count == 0)
 				{
-					Console.WriteLine($"\nAct {num2 + 1}");
+					Console.ResetColor();
+					Console.WriteLine($"\nAct {++num3}");
 				}
+				Console.ForegroundColor = ConsoleColor.DarkYellow;
 				Console.WriteLine(a);
-				num2++;
 			}
-			Console.WriteLine("Press any key to restart...");
+			Console.WriteLine("\nPress any key to restart...");
 			Console.ReadKey();
 			Console.Clear();
 			goto StartHere;
