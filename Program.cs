@@ -45,6 +45,7 @@
 						AddWaypoint(ref area, n);
 					}
 					else continue;
+					continue;
 				}
 				for (int i = 0; i < count; i++)
 				{
@@ -59,7 +60,7 @@
 			{
 				if (num2++ % count == 0)
 				{
-					if (count > 2 && num2 == 3)
+					if (count > 2 && num2 / count == 3)
 					{
 						num3++;
 					}
@@ -69,6 +70,7 @@
 				Console.ForegroundColor = ConsoleColor.Green;
 				Console.WriteLine(a);
 			}
+			Console.ResetColor();
 			Console.WriteLine("\nPress any key to restart...");
 			Console.ReadKey();
 			Console.Clear();
