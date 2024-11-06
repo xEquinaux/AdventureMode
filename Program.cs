@@ -17,7 +17,17 @@
 				Console.Clear();
 			}
 			int num = 0;
-			byte count = 2;	// Change count per input in later version
+			string readLine2 = string.Empty;
+			byte count = 0;
+			COUNT:
+			Console.Write("Input how many waypoints you'd like to query (1-8): ");
+			while (!byte.TryParse(Console.ReadLine(), out count));
+			if (count < 1 || count > 8)
+			{
+				Console.WriteLine("Try again.");
+				goto COUNT;
+			}
+			Console.Clear();
 			IList<string> area = new List<string>();
 			while (num++ < 4)
 			{
@@ -55,7 +65,7 @@
 		{
 			rand = new System.Random(DateTime.Now.Millisecond);
 		}
-		public static string[] Location(Act act, byte count = 3)
+		public static string[] Location(Act act, short count = 3)
 		{
 			if (count > 8) count = 8;
 			string[] location = new string[count];
