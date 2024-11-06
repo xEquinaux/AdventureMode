@@ -71,7 +71,7 @@
 		public static void AddWaypoint(ref IList<string> area, int actNum)
 		{
 			ROLL:
-			string location = Utility.Location((Act)actNum);
+			string location = Utility.Location((Act)actNum + 1);
 			if (!area.Contains(location))
 			{
 				area.Add(location);
@@ -89,8 +89,13 @@
 		}
 		public static string Location(Act act)
 		{
+			int num = rand.Next(8);
 			var getAct = GetAct((int)act);
-			return GetName(getAct[rand.Next(9)], (int)act);
+			if (act == Act.Four)
+			{
+				num = rand.Next(2);
+			}
+			return GetName(getAct[num], (int)act);
 		}
 		public static string[] Location(Act act, short count = 3)
 		{
