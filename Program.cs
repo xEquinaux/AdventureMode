@@ -29,15 +29,26 @@
 			}
 			Console.Clear();
 			IList<string> area = new List<string>();
-			while (num++ < 4)
-			{
-				for (int n = 0; n < 5; n++)
-				{ 
-					if (n == 3) continue;
-					for (int i = 0; i < 3; i++)
-					{
-						area.Add(Utility.Location((Act)n, count)[i]);
+			for (int n = 0; n < 5; n++)
+			{ 
+				if (n == 3) 
+				{
+					if (count >= 2)
+					{ 
+						for (int m = 0; m < 2; m++)
+						{
+							AddWaypoint(ref area, n);
+						}
 					}
+					else
+					{
+						AddWaypoint(ref area, n);
+					}
+					continue;
+				}
+				for (int i = 0; i < count; i++)
+				{
+					AddWaypoint(ref area, n);
 				}
 			}
 			Console.Clear();
@@ -57,6 +68,17 @@
 			Console.Clear();
 			goto StartHere;
 		}
+		public static void AddWaypoint(ref IList<string> area, int actNum)
+		{
+			ROLL:
+			string location = Utility.Location((Act)actNum);
+			if (!area.Contains(location))
+			{
+				area.Add(location);
+				return;
+			}
+			goto ROLL;
+		}
 	}
 	public struct Utility
 	{
@@ -64,6 +86,11 @@
 		public static void Initialize()
 		{
 			rand = new System.Random(DateTime.Now.Millisecond);
+		}
+		public static string Location(Act act)
+		{
+			var getAct = GetAct((int)act);
+			return GetName(getAct[rand.Next(9)], (int)act);
 		}
 		public static string[] Location(Act act, short count = 3)
 		{
@@ -74,7 +101,7 @@
 			do
 			{
 				START:
-				string area = GetName(getAct[rand.Next(9)], 1);
+				string area = GetName(getAct[rand.Next(9)], (int)act);
 				if (!location.Contains(area))
 				{
 					location[num] = area;
