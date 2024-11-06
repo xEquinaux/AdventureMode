@@ -59,10 +59,14 @@
 			{
 				if (num2++ % count == 0)
 				{
+					if (count > 2 && num2 == 3)
+					{
+						num3++;
+					}
 					Console.ResetColor();
 					Console.WriteLine($"\nAct {++num3}");
 				}
-				Console.ForegroundColor = ConsoleColor.DarkYellow;
+				Console.ForegroundColor = ConsoleColor.Green;
 				Console.WriteLine(a);
 			}
 			Console.WriteLine("\nPress any key to restart...");
