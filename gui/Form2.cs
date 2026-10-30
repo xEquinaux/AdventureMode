@@ -21,70 +21,138 @@ namespace gui
                 Now.Month + 
                 Now.Year
             );
-        public static Button[] board = default;
+        public static Button[,] Board = default;
         public Form2()
         {
             InitializeComponent();
-            board = new Button[]
+            Board = new Button[,]
             {
-                button1,    button2,    button3,    button4,    button5,
-                button6,    button7,    button8,    button9,    button10,
-                button11,   button12,   button13,   button14,   button15,
-                button16,   button17,   button18,   button19,   button20,
-                button21,   button22,   button23,   button24,   button25
+                { button1,    button2,    button3,    button4,    button5  },
+                { button6,    button7,    button8,    button9,    button10 },
+                { button11,   button12,   button13,   button14,   button15 },
+                { button16,   button17,   button18,   button19,   button20 },
+                { button21,   button22,   button23,   button24,   button25 }
             };
-            foreach (var item in board)
+            foreach (var item in Board)
             {
+                item.ForeColor = Color.GhostWhite;
+                item.BackColor = Color.SteelBlue;
                 item.Click += (e, o) => 
                 {
-                    if (item.BackColor == Color.ForestGreen)
+                    if (IsActive(item) || IsComplete(item))
                     { 
-                        item.BackColor = Color.SteelBlue;
+                        SetInactive(item);
                     }
                     else
                     {   
-                        item.BackColor = Color.ForestGreen; 
+                        SetActive(item);
                     }
-                    item.ForeColor = Color.GhostWhite;
+                    for (int i = 0; i < 5; i++)
+                    {
+                        for (int j = 0; j < 5; j++)
+                        {
+                            bool[] flag = new bool[5];
+                            Button[] card = new Button[5];          
+                            for (int n = -5; n < 5; n++)
+                            {
+                                if (n + i >= 0 && n + i < 5)
+                                {
+                                    if (IsComplete(Board[i + n, j]) || IsActive(Board[i + n, j]))
+                                    {
+                                        flag[n + i] = true;
+                                        card[n + i] = Board[i + n, j];
+                                    }
+                                    if (flag.All(t => true) && card.All(t => t != null))
+                                    {
+                                        foreach (var item1 in card)
+                                        {
+                                            if (item1 != default)
+                                                SetComplete(item1);
+                                        }
+                                        break;
+                                    }
+                                }
+                            }
+                            bool[] _flag = new bool[5];
+                            Button[] _card = new Button[5];          
+                            for (int n = -5; n < 5; n++)
+                            {          
+                                if (n + j >= 0 && n + j < 5)
+                                {
+                                    if (IsComplete(Board[i, j + n]) || IsActive(Board[i, j + n]))
+                                    {
+                                        _flag[n + j] = true;
+                                        _card[n + j] = Board[i, j + n];
+                                    }
+                                    if (_flag.All(t => true) && _card.All(t => t != null))
+                                    {
+                                        foreach (var item1 in _card)
+                                        {
+                                            if (item1 != default)
+                                                SetComplete(item1);
+                                        }
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
                 };
-                item.ForeColor = Color.GhostWhite;
-                item.BackColor = Color.SteelBlue;
             }
             Card.Generate();
         }
-    }
-    public struct Card
-    {
-        public bool active = false;
-        public Region result = default;
-        public Button button = default;
-        public Card(Region result)
+        public bool IsActive(Button button)
         {
-            this.result = result;
+            return button.BackColor == Color.ForestGreen;
         }
-        public static Card[] Generate()
+        public bool IsComplete(Button button)
         {
-            Card[] card = new Card[25];
+            return button.BackColor == Color.Gold;
+        }
+        public bool IsInARow(Button button)
+        {   
+            return false;
+        }
+        public void SetComplete(Button button)
+        {
+            button.BackColor = Color.Gold;
+            button.ForeColor = Color.Black;
+        }
+        public void SetActive(Button button)
+        {
+            button.BackColor = Color.ForestGreen;
+            button.ForeColor = Color.GhostWhite;
+        }
+        public void SetInactive(Button button)
+        {
+            button.BackColor = Color.SteelBlue;
+            button.ForeColor = Color.GhostWhite;
+        }
+    }
+    public partial class Card : Button
+    {
+        public bool InARow = false;
+        public static void Generate()
+        {
             IList<int> include = new List<int>();
             int tries = 200;
-            for (int i = 0; i < card.Length; i++)
+            for (int i = 0; i < 5; i++)
             {
-            RESTART:
-                if (tries-- <= 0) return card;
-                int index = Form2.rand.Next(RogueData.Count);
-                Region region = RogueData.AllRegions[index];
-                if (!include.Contains(index))
-                {
-                    include.Add(index);
-                    card[i] = new Card(region);
-                    card[i].button = Form2.board[i];
-                    string activity = region.objective[Form2.rand.Next(region.objective.Length)];
-                    card[i].button.Text = $"Act {region.act}\n{region.waypoint}\n{activity}";
-                    continue;
+                for (int j = 0; j < 5; j++)
+                { 
+                RESTART:
+                    if (tries-- <= 0) return;
+                    int index = Form2.rand.Next(RogueData.Count);
+                    Region region = RogueData.AllRegions[index];
+                    if (!include.Contains(index))
+                    {
+                        include.Add(index);
+                        string activity = region.objective[Form2.rand.Next(region.objective.Length)];
+                        Form2.Board[i, j].Text = $"Act {region.act}\n{region.waypoint}\n{activity}";
+                    }
+                    else goto RESTART;
                 }
-                else goto RESTART;
             }
-            return card;
         }
     }
 
@@ -393,3 +461,4 @@ namespace gui
         Five = 5
     }
 }
+
