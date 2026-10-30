@@ -31,6 +31,7 @@ partial class Form1
         checkedListBox1 = new CheckedListBox();
         button1 = new Button();
         comboBox1 = new ComboBox();
+        button2 = new Button();
         SuspendLayout();
         // 
         // checkedListBox1
@@ -61,11 +62,22 @@ partial class Form1
         comboBox1.TabIndex = 2;
         comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
         // 
+        // button2
+        // 
+        button2.Location = new Point(12, 249);
+        button2.Name = "button2";
+        button2.Size = new Size(494, 23);
+        button2.TabIndex = 3;
+        button2.Text = "Open Bingo";
+        button2.UseVisualStyleBackColor = true;
+        button2.Click += button2_Click;
+        // 
         // Form1
         // 
         AutoScaleDimensions = new SizeF(7F, 15F);
         AutoScaleMode = AutoScaleMode.Font;
-        ClientSize = new Size(518, 249);
+        ClientSize = new Size(518, 282);
+        Controls.Add(button2);
         Controls.Add(comboBox1);
         Controls.Add(button1);
         Controls.Add(checkedListBox1);
@@ -79,4 +91,5 @@ partial class Form1
     private CheckedListBox checkedListBox1;
     private Button button1;
     private ComboBox comboBox1;
+    private Button button2;
 }
