@@ -92,7 +92,7 @@ namespace gui
     {
         public static Region[] ActOne = new Region[]
         {
-                //RogueEncampment,
+                RogueEncampment,
                 BloodMoor,
                 ColdPlains,
                 BurialGrounds,
@@ -105,7 +105,20 @@ namespace gui
                 InnerCloister,
                 Catacombs
         };
-        public static Region RogueEncampment => new Region(Act.One, Waypoint.Rogue_Encampment, []);
+        public static Region RogueEncampment => new Region(Act.One, Waypoint.Rogue_Encampment, 
+            [ 
+                "Make one runeword",
+                "Craft caster amulet",
+                "Craft blood gloves",
+                "Get 1 million gold",
+                "Craft safety ring",
+                "Equip mercenary with 1 unique",
+                "Craft hit power helm",
+                "Break one equipped item",
+                "Find a ral rune",
+                "Acquire one perfect skull",
+                "Find a superior ethereal item"
+            ]);
         public static Region BloodMoor => new Region(Act.One, Waypoint.Rogue_Encampment, ["Clear Den of Evil"]);
         public static Region ColdPlains => new Region(Act.One, Waypoint.Cold_Plains, ["Cave"]);
         public static Region BurialGrounds => new Region(Act.One, Waypoint.Cold_Plains,
